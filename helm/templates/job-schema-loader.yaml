@@ -1,0 +1,33 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Values.component }}-schema-load
+spec:
+  backoffLimit: 4
+  template:
+    spec:
+      serviceAccountName: "{{ .Values.component }}"
+      restartPolicy: Never
+      volumes:
+      - name: parameters
+        emptyDir: {}
+      initContainers:
+        - name: parameters-pull
+          image: {{ .Values.initContainers.parameters_pull.image }}
+          imagePullPolicy: {{ .Values.initContainers.parameters_pull.imagePullPolicy }}
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          env:
+            - name: PARAMS
+              value: {{ .Values.job.PARAMS }}
+      containers:
+        - name: schema-load
+          image: {{ .Values.containers.schema_loader.image }}
+          imagePullPolicy: {{ .Values.containers.schema_loader.imagePullPolicy }}
+          env:
+            - name: COMPONENT
+              value: {{ .Values.component }}
+            - name: SCHEMA_TYPE
+              value: {{ .Values.schema_type }}
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
