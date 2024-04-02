@@ -3,7 +3,9 @@ replica: 1
 PARAMS: "dev.roboshop.shipping.CART_ENDPOINT,CART_ENDPOINT dev.roboshop.shipping.DB_HOST,DB_HOST"
 
 job:
+  enabled: true
   PARAMS: "dev.roboshop.rds.endpoint,DB_HOST dev.roboshop.rds.username,DB_USER dev.roboshop.rds.password,DB_PASS"
+
 component: shipping
 schema_type: mysql
 service:

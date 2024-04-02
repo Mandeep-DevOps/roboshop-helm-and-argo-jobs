@@ -3,6 +3,7 @@ replica: 1
 PARAMS: "dev.roboshop.catalogue.MONGO_URL,MONGO_URL"
 
 job:
+  enabled: true
   PARAMS: "dev.roboshop.docdb.username,DOCDB_USER dev.roboshop.docdb.password,DOCDB_PASS dev.roboshop.docdb.endpoint,DOCDB_ENDPOINT"
 
 component: catalogue

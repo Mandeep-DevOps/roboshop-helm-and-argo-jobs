@@ -2,3 +2,5 @@ volumeMounts:
   - name: parameters
     mountPath: /parameters
 
+job:
+  enabled: false
