@@ -1,0 +1,22 @@
+env: dev
+replica: 1
+PARAMS: "dev.roboshop.cart.REDIS_HOST,REDIS_HOST dev.roboshop.cart.CATALOGUE_HOST,CATALOGUE_HOST dev.roboshop.cart.CATALOGUE_PORT,CATALOGUE_PORT"
+component: cart
+
+
+service:
+  port: 80
+  containerPort: 8080
+
+initContainers:
+  parameters_pull:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/parameter-store-init-container-image:1.0.0
+    imagePullPolicy: Always
+
+containers:
+  main:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/cart:1.0.3
+    imagePullPolicy: Always
+
+
+

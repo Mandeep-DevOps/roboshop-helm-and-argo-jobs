@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.component }}
+  labels:
+    app: {{ .Values.component }}
+spec:
+  replicas: {{ .Values.replica }}
+  selector:
+    matchLabels:
+      app: {{ .Values.component }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.component }}
+    spec:
+      serviceAccountName: {{ .Values.component }}
+      initContainers:
+        - name: parameters-pull
+          image: {{ .Values.initContainers.parameters_pull.image }}
+          imagePullPolicy: {{ .Values.initContainers.parameters_pull.imagePullPolicy }}
+          resources:
+            requests:
+              memory: "100Mi"
+              cpu: "100m"
+            limits:
+              memory: "150Mi"
+              cpu: "100m"
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+          env:
+            - name: PARAMS
+              value: {{ .Values.PARAMS }}
+      containers:
+        - name: {{ .Values.component }}
+          image: {{ .Values.containers.main.image }}
+          imagePullPolicy: {{ .Values.containers.main.imagePullPolicy }}
+          volumeMounts:
+            {{- toYaml .Values.volumeMounts | nindent 12 }}
+      volumes:
+      - name: parameters
+        emptyDir: {}

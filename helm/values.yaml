@@ -1,0 +1,4 @@
+volumeMounts:
+  - name: parameters
+    mountPath: /parameters
+
