@@ -1,0 +1,17 @@
+env: prod
+replica: 2
+PARAMS: "prod.roboshop.payment.CART_HOST,CART_HOST prod.roboshop.payment.CART_PORT,CART_PORT prod.roboshop.payment.USER_HOST,USER_HOST prod.roboshop.payment.USER_PORT,USER_PORT prod.roboshop.payment.AMQP_HOST,AMQP_HOST prod.roboshop.payment.AMQP_USER,AMQP_USER prod.roboshop.payment.AMQP_PASS,AMQP_PASS"
+component: payment
+service:
+  port: 80
+  containerPort: 8080
+
+initContainers:
+  parameters_pull:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/parameter-store-init-container-image:1.0.0
+    imagePullPolicy: Always
+
+containers:
+  main:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/payment:1.0.1
+    imagePullPolicy: Always

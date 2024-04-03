@@ -1,0 +1,27 @@
+env: prod
+replica: 2
+PARAMS: "prod.roboshop.shipping.CART_ENDPOINT,CART_ENDPOINT prod.roboshop.shipping.DB_HOST,DB_HOST"
+
+job:
+  enabled: true
+  PARAMS: "prod.roboshop.rds.endpoint,DB_HOST prod.roboshop.rds.username,DB_USER prod.roboshop.rds.password,DB_PASS"
+
+component: shipping
+schema_type: mysql
+service:
+  port: 80
+  containerPort: 8080
+
+initContainers:
+  parameters_pull:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/parameter-store-init-container-image:1.0.0
+    imagePullPolicy: Always
+
+containers:
+  main:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/shipping:1.0.1
+    imagePullPolicy: Always
+  schema_loader:
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/schema-loader:1.0.0
+    imagePullPolicy: Always
+
