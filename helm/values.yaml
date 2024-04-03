@@ -4,3 +4,6 @@ volumeMounts:
 
 job:
   enabled: false
+
+ingress:
+  enabled: false

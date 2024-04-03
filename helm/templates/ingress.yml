@@ -1,0 +1,21 @@
+{{- if .Values.ingress.enabled -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.component }}
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.component }}-{{ .Values.env }}.rdevopsb73.online
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.component }}-{{ .Values.env }}.rdevopsb73.online
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.component }}
+                port:
+                  number: 80
+            path: /
+{{- end -}}
