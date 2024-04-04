@@ -20,12 +20,7 @@ spec:
           image: {{ .Values.initContainers.parameters_pull.image }}
           imagePullPolicy: {{ .Values.initContainers.parameters_pull.imagePullPolicy }}
           resources:
-            requests:
-              memory: "100Mi"
-              cpu: "100m"
-            limits:
-              memory: "150Mi"
-              cpu: "100m"
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           env:
