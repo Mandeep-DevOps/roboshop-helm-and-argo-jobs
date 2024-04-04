@@ -15,7 +15,7 @@ initContainers:
 
 containers:
   main:
-    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/cart:1.0.3
+    image: 739561048503.dkr.ecr.us-east-1.amazonaws.com/cart:1.0.4
     imagePullPolicy: Always
 
 
