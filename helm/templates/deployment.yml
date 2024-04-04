@@ -19,25 +19,25 @@ spec:
         - name: parameters-pull
           image: {{ .Values.initContainers.parameters_pull.image }}
           imagePullPolicy: {{ .Values.initContainers.parameters_pull.imagePullPolicy }}
-          resources:
-            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
           env:
             - name: PARAMS
               value: {{ .Values.PARAMS }}
-          readinessProbe:
-            httpGet:
-              path: /health
-              port: {{ .Values.service.containerPort }}
-            failureThreshold: 10
-            periodSeconds: 10
       containers:
         - name: {{ .Values.component }}
           image: {{ .Values.containers.main.image }}
           imagePullPolicy: {{ .Values.containers.main.imagePullPolicy }}
           volumeMounts:
             {{- toYaml .Values.volumeMounts | nindent 12 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: {{ .Values.service.containerPort }}
+            failureThreshold: 10
+            periodSeconds: 10
       volumes:
       - name: parameters
         emptyDir: {}
